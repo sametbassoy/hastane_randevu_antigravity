@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>API Test</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .box {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    pre {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+
+    button {
+      padding: 12px 24px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Subtitle style */
+    #subtitle-container {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 15px 30px;
+      border-radius: 30px;
+      font-size: 24px;
+      text-align: center;
+      z-index: 1000;
+      display: none;
+      /* Hidden by default */
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Hospital API Visual Verification</h1>
+
+  <div id="subtitle-container"></div>
+
+  <div class="box">
+    <h2>Step 1: Get Available Doctors</h2>
+    <p>We will fetch the list of doctors from <code>GET /doctors/available</code>.</p>
+    <button onclick="runStep1()">Fetch Doctors</button>
+    <pre id="doctors-output">Waiting for action...</pre>
+  </div>
+
+  <div class="box">
+    <h2>Step 2: Create Appointment</h2>
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+      <title>API Test</title>
+      <style>
+        body {
+          font-family: sans-serif;
+          padding: 20px;
+          max-width: 800px;
+          margin: 0 auto;
+        }
+
+        .box {
+          border: 1px solid #ccc;
+          padding: 15px;
+          margin-bottom: 20px;
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        pre {
+          background: #f8f9fa;
+          padding: 15px;
+          border-radius: 4px;
+          overflow-x: auto;
+        }
+
+        button {
+          padding: 12px 24px;
+          cursor: pointer;
+          background-color: #007bff;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          font-size: 16px;
+          transition: background 0.3s;
+        }
+
+        button:hover {
+          background-color: #0056b3;
+        }
+
+        /* Subtitle style */
+        #subtitle-container {
+          position: fixed;
+          bottom: 30px;
+          left: 50%;
+          transform: translateX(-50%);
+          background-color: rgba(0, 0, 0, 0.8);
+          color: white;
+          padding: 15px 30px;
+          border-radius: 30px;
+          font-size: 24px;
+          text-align: center;
+          z-index: 1000;
+          display: none;
+          /* Hidden by default */
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+      </style>
+    </head>
+
+    <body>
+      <h1>Hospital API Visual Verification</h1>
+
+      <div id="subtitle-container"></div>
+
+      <div class="box">
+        <h2>Step 1: Get Available Doctors</h2>
+        <p>We will fetch the list of doctors from <code>GET /doctors/available</code>.</p>
+        <button onclick="runStep1()">Fetch Doctors</button>
+        <pre id="doctors-output">Waiting for action...</pre>
+      </div>
+
+      <div class="box">
+        <h2>Step 2: Create Appointment</h2>
+        <p>We will book an appointment using <code>POST /appointments</code>.</p>
+        <button onclick="runStep2()">Book Appointment</button>
+        <pre id="appointment-output">Waiting for action...</pre>
+      </div>
+
+      <script>
+        function showSubtitle(text, duration = 3000) {
+          const el = document.getElementById('subtitle-container');
+          el.textContent = text;
+          el.style.display = 'block';
+          speak(text);
+        }
+
+        function speak(text) {
+          if ('speechSynthesis' in window) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US'; // Or 'tr-TR' if preferred, but text is English
+            window.speechSynthesis.speak(utterance);
+          }
+        }
+
+        async function runStep1() {
+          showSubtitle("Step 1: Fetching available doctors from the API...");
+          document.getElementById('doctors-output').textContent = 'Loading...';
+
+          // Artificial delay for reading/speaking
+          await new Promise(r => setTimeout(r, 3000));
+
+          try {
+            const res = await fetch('http://localhost:3000/doctors/available');
+            const data = await res.json();
+            document.getElementById('doctors-output').textContent = JSON.stringify(data, null, 2);
+            showSubtitle("Success! Found " + data.length + " doctor(s).");
+          } catch (e) {
+            document.getElementById('doctors-output').textContent = 'Error: ' + e.message;
+            showSubtitle("Error fetching doctors.");
+          }
+        }
+
+        async function runStep2() {
+          showSubtitle("Step 2: Creating a new appointment for Dr. House...");
+          document.getElementById('appointment-output').textContent = 'Creating...';
+
+          // Artificial delay for reading/speaking
+          await new Promise(r => setTimeout(r, 3000));
+
+          const body = {
+            appointment: {
+              doctor_id: 1,
+              patient_id: 1,
+              appointment_time: new Date(Date.now() + 3600000).toISOString()
+            }
+          };
+
+          try {
+            const res = await fetch('http://localhost:3000/appointments', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(body)
+            });
+            const data = await res.json();
+            document.getElementById('appointment-output').textContent = JSON.stringify(data, null, 2);
+            showSubtitle("Appointment booked successfully! Status: " + data.status);
+          } catch (e) {
+            document.getElementById('appointment-output').textContent = 'Error: ' + e.message;
+            showSubtitle("Error creating appointment.");
+          }
+        }
+      </script>
+    </body>
+
+    </html>
